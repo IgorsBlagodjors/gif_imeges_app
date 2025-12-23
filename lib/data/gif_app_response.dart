@@ -5,7 +5,7 @@ part 'gif_app_response.g.dart';
 
 @JsonSerializable(createToJson: false)
 class FullResponse {
-  List<GifData> data;
+  final List<GifData> data;
   FullResponse({required this.data});
 
   List<GifClass> toModel() {
@@ -27,8 +27,8 @@ class FullResponse {
 
 @JsonSerializable(createToJson: false)
 class GifData {
-  String id;
-  Images images;
+  final String id;
+  final Images images;
   GifData({required this.id, required this.images});
 
   factory GifData.fromJson(Map<String, dynamic> json) =>
@@ -37,7 +37,7 @@ class GifData {
 
 @JsonSerializable(createToJson: false)
 class Images {
-  OriginalImages original;
+  final OriginalImages original;
   Images({required this.original});
 
   factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
@@ -45,9 +45,9 @@ class Images {
 
 @JsonSerializable(createToJson: false)
 class OriginalImages {
-  String url;
-  String width;
-  String height;
+  final String url;
+  final String width;
+  final  String height;
   OriginalImages({
     required this.url,
     required this.width,

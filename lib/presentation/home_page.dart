@@ -23,29 +23,12 @@ class _HomePageState extends State<HomePage> {
   Timer? _searchTimer;
   late final GifListCubit _cubit;
   double _lastRequestedExtent = 0;
-   final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _cubit = BlocProvider.of<GifListCubit>(context);
     _cubit.fetchCollection(_queryFromLiveSearch);
-  }
-
-   @override
-  void dispose() {
-    _searchTimer?.cancel();
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _scrollToTopSafely() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      if (_scrollController.hasClients) {
-        _scrollController.jumpTo(0);
-      }
-    });
   }
 
   @override
@@ -66,7 +49,6 @@ class _HomePageState extends State<HomePage> {
                 _lastRequestedExtent = 0;
                 _searchTimer = Timer(const Duration(milliseconds: 500), () {
                   _queryFromLiveSearch = value;
-                 // _scrollToTopSafely();
                   _cubit.fetchCollection(value);
                   print('Searching for: $_queryFromLiveSearch');
                 });
@@ -105,13 +87,12 @@ class _HomePageState extends State<HomePage> {
                         }
                         const thresholdPx = 300.0;
                         final shouldRequestMore =
-                            metrics.pixels >= metrics.maxScrollExtent - thresholdPx &&
+                            metrics.pixels >=
+                                metrics.maxScrollExtent - thresholdPx &&
                             metrics.maxScrollExtent > _lastRequestedExtent;
                         if (shouldRequestMore) {
                           _lastRequestedExtent = metrics.maxScrollExtent;
                           _cubit.fetchCollection(_queryFromLiveSearch);
-                          print('QUQRYYGSDFGDSFGDSFGSD ${_queryFromLiveSearch}');
-                          print(  'AAAAAAAAAAAAAAAAAAAA ${_lastRequestedExtent}');
                         }
                         return false;
                       },

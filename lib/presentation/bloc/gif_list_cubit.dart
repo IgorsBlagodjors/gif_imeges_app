@@ -24,7 +24,6 @@ class GifListCubit extends Cubit<GifListState> {
       final combined = isFirstPage ? items : previous + items;
       _offset += 30;
       emit(GifListState.loaded(combined));
-      print('LENGHT ${combined.length}');
     } on Exception catch (ex, stacktrace) {
       logger.e('Failed to load: ex $ex, stacktrace: $stacktrace');
       emit(GifListState.error(ex.toString()));
