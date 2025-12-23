@@ -2,34 +2,34 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gif_imeges_app/domain/gif_app_repository.dart';
 import 'package:gif_imeges_app/domain/gif_class.dart';
 import 'package:gif_imeges_app/presentation/bloc/gif_list_state.dart';
-import 'package:logger/logger.dart';
 
 class GifListCubit extends Cubit<GifListState> {
-  final GifAppRepository _gifAppRepository;
+  final GifAppRepository _repo;
   int _offset = 0;
-  final Logger _logger = Logger();
+  final List<GifClass> _gifs = [];
 
-  GifListCubit(this._gifAppRepository)
-    : super(const GifListState.initial());
+  GifListCubit(this._repo) : super(const GifListState.initial());
 
   Future<void> fetchCollection(String? query) async {
     final isFirstPage = _offset == 0;
-    final previous = switch (state) {
-      Loaded(:final gifs) => gifs,
-      _ => const <GifClass>[],
-    };
+
     try {
-      final items = await _gifAppRepository.fetchGifs(query, _offset);
-      final combined = isFirstPage ? items : previous + items;
+      final items = await _repo.fetchGifs(query, _offset);
+
+      if (isFirstPage) _gifs.clear();
+      _gifs.addAll(items);
+
       _offset += 30;
-      emit(GifListState.loaded(combined));
-    } on Exception catch (ex, stacktrace) {
-      _logger.e('Failed to load: ex $ex, stacktrace: $stacktrace');
-      emit(GifListState.error(ex.toString()));
+      print('AAAAAAAAAAAA ${_gifs.length}');
+      emit(
+        _gifs.isEmpty
+            ? const GifListState.empty()
+            : GifListState.loaded(List.unmodifiable(_gifs)),
+      );
+    } catch (e, st) {
+      emit(GifListState.error(e.toString()));
     }
   }
 
-  void setOffset({required int offset}) {
-    _offset = offset;
-  }
+  void setOffset({required int offset}) => _offset = offset;
 }

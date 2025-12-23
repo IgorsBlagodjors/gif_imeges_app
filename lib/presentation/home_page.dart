@@ -81,6 +81,7 @@ class _HomePageState extends State<HomePage> {
                   Error(:final message) => Center(
                     child: Text('Error: $message'),
                   ),
+                  EmptyState() => const Center(child: Text('Problem with internet connection or no results found.')),
                   Loaded(:final gifs) =>
                     NotificationListener<ScrollNotification>(
                       onNotification: (notification) {
@@ -115,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: CachedNetworkImage(
-                              imageUrl: data.url,
+                              imageUrl: data.fixedUrl,
                               fit: BoxFit.cover,
                               placeholder: (_, _) => const Center(
                                 child: CircularProgressIndicator(),

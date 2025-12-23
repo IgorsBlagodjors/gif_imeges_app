@@ -1,13 +1,11 @@
 class GifClass {
   final String id;
   final String url;
-  final String width;
-  final String height;
+  final String fixedUrl;
 
   GifClass({
     required this.id,
     required this.url,
-    required this.width,
-    required this.height,
+    required this.fixedUrl,
   });
 }

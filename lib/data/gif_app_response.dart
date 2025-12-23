@@ -14,8 +14,7 @@ class FullResponse {
           (dataItem) => GifClass(
             id: dataItem.id,
             url: dataItem.images.original.url,
-            width: dataItem.images.original.width,
-            height: dataItem.images.original.height,
+            fixedUrl: dataItem.images.fixedWidthSmall.url,
           ),
         )
         .toList();
@@ -38,7 +37,11 @@ class GifData {
 @JsonSerializable(createToJson: false)
 class Images {
   final OriginalImages original;
-  Images({required this.original});
+
+  @JsonKey(name: 'fixed_width_small')
+  final OriginalImages fixedWidthSmall;
+
+  Images({required this.original, required this.fixedWidthSmall});
 
   factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
 }
@@ -46,12 +49,9 @@ class Images {
 @JsonSerializable(createToJson: false)
 class OriginalImages {
   final String url;
-  final String width;
-  final  String height;
+
   OriginalImages({
     required this.url,
-    required this.width,
-    required this.height,
   });
 
   factory OriginalImages.fromJson(Map<String, dynamic> json) =>

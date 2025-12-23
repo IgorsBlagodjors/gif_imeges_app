@@ -19,11 +19,10 @@ GifData _$GifDataFromJson(Map<String, dynamic> json) => GifData(
 
 Images _$ImagesFromJson(Map<String, dynamic> json) => Images(
   original: OriginalImages.fromJson(json['original'] as Map<String, dynamic>),
+  fixedWidthSmall: OriginalImages.fromJson(
+    json['fixed_width_small'] as Map<String, dynamic>,
+  ),
 );
 
 OriginalImages _$OriginalImagesFromJson(Map<String, dynamic> json) =>
-    OriginalImages(
-      url: json['url'] as String,
-      width: json['width'] as String,
-      height: json['height'] as String,
-    );
+    OriginalImages(url: json['url'] as String);
