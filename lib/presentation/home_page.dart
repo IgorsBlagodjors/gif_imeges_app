@@ -23,6 +23,8 @@ class _HomePageState extends State<HomePage> {
   Timer? _searchTimer;
   late final GifListCubit _cubit;
   double _lastRequestedExtent = 0;
+  static const _debounceDuration = Duration(milliseconds: 300);
+  static const _backgroundColor = Color(0xFF45278B);
 
   @override
   void initState() {
@@ -31,10 +33,20 @@ class _HomePageState extends State<HomePage> {
     _cubit.fetchCollection(_queryFromLiveSearch);
   }
 
+    void _onSearchChanged(String value) {
+    _searchTimer?.cancel();
+    _cubit.setOffset(offset: 0);
+    _lastRequestedExtent = 0;
+    _searchTimer = Timer(_debounceDuration, () {
+      _queryFromLiveSearch = value;
+      _cubit.fetchCollection(value);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF45278B),
+      backgroundColor: _backgroundColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -43,16 +55,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: TextFormField(
               keyboardType: TextInputType.text,
-              onChanged: (value) {
-                _searchTimer?.cancel();
-                _cubit.setOffset(offset: 0);
-                _lastRequestedExtent = 0;
-                _searchTimer = Timer(const Duration(milliseconds: 500), () {
-                  _queryFromLiveSearch = value;
-                  _cubit.fetchCollection(value);
-                  print('Searching for: $_queryFromLiveSearch');
-                });
-              },
+              onChanged: _onSearchChanged,
               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 hintText: 'Live search...',

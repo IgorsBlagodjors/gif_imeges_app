@@ -7,8 +7,7 @@ import 'package:logger/logger.dart';
 class GifListCubit extends Cubit<GifListState> {
   final GifAppRepository _gifAppRepository;
   int _offset = 0;
-  final logger = Logger();
-
+  final Logger _logger = Logger();
 
   GifListCubit(this._gifAppRepository)
     : super(const GifListState.initial());
@@ -25,12 +24,12 @@ class GifListCubit extends Cubit<GifListState> {
       _offset += 30;
       emit(GifListState.loaded(combined));
     } on Exception catch (ex, stacktrace) {
-      logger.e('Failed to load: ex $ex, stacktrace: $stacktrace');
+      _logger.e('Failed to load: ex $ex, stacktrace: $stacktrace');
       emit(GifListState.error(ex.toString()));
     }
   }
 
-  setOffset({required int offset}) {
+  void setOffset({required int offset}) {
     _offset = offset;
   }
 }
