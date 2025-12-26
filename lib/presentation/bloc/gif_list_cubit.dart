@@ -12,13 +12,10 @@ class GifListCubit extends Cubit<GifListState> {
 
   Future<void> fetchCollection(String? query) async {
     final isFirstPage = _offset == 0;
-
     try {
       final items = await _repo.fetchGifs(query, _offset);
-
       if (isFirstPage) _gifs.clear();
       _gifs.addAll(items);
-
       _offset += 30;
       print('AAAAAAAAAAAA ${_gifs.length}');
       emit(

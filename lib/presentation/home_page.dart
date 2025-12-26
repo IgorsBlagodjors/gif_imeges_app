@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gif_imeges_app/data/memory_gif_repository.dart';
+import 'package:gif_imeges_app/design_system/app_colors.dart';
 import 'package:gif_imeges_app/domain/gif_app_repository.dart';
+import 'package:gif_imeges_app/presentation/bloc/fav_page/fav_page.dart';
 import 'package:gif_imeges_app/presentation/bloc/gif_list_cubit.dart';
 import 'package:gif_imeges_app/presentation/bloc/gif_list_state.dart';
 
@@ -24,7 +27,6 @@ class _HomePageState extends State<HomePage> {
   late final GifListCubit _cubit;
   double _lastRequestedExtent = 0;
   static const _debounceDuration = Duration(milliseconds: 300);
-  static const _backgroundColor = Color(0xFF45278B);
 
   @override
   void initState() {
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     _cubit.fetchCollection(_queryFromLiveSearch);
   }
 
-    void _onSearchChanged(String value) {
+  void _onSearchChanged(String value) {
     _searchTimer?.cancel();
     _cubit.setOffset(offset: 0);
     _lastRequestedExtent = 0;
@@ -42,15 +44,24 @@ class _HomePageState extends State<HomePage> {
       _cubit.fetchCollection(value);
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _backgroundColor,
+      backgroundColor: AppColors.backgroundColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(height: 50),
+          GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FavPage.withCubit(),
+              ),
+            ),
+            
+            child: Icon( Icons.gif, size: 100, color: Colors.white)),
+          SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: TextFormField(
@@ -81,7 +92,11 @@ class _HomePageState extends State<HomePage> {
                   Error(:final message) => Center(
                     child: Text('Error: $message'),
                   ),
-                  EmptyState() => const Center(child: Text('Problem with internet connection or no results found.')),
+                  EmptyState() => const Center(
+                    child: Text(
+                      'Problem with internet connection or no results found.',
+                    ),
+                  ),
                   Loaded(:final gifs) =>
                     NotificationListener<ScrollNotification>(
                       onNotification: (notification) {
@@ -113,18 +128,41 @@ class _HomePageState extends State<HomePage> {
                             ),
                         itemBuilder: (_, index) {
                           final data = gifs[index];
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: CachedNetworkImage(
-                              imageUrl: data.fixedUrl,
-                              fit: BoxFit.cover,
-                              placeholder: (_, _) => const Center(
-                                child: CircularProgressIndicator(),
+                          return Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: CachedNetworkImage(
+                                  imageUrl: data.fixedUrl,
+                                  fit: BoxFit.cover,
+                                  placeholder: (_, _) => const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  errorWidget: (_, _, error) => const Center(
+                                    child: Icon(Icons.broken_image, size: 32),
+                                  ),
+                                ),
                               ),
-                              errorWidget: (_, _, error) => const Center(
-                                child: Icon(Icons.broken_image, size: 32),
+                              Positioned(
+                                right: 2,
+                                top: 2,
+                                child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      data.isLiked = !data.isLiked;
+                                      MemoryGifRepository.favList.add(data);
+                                    });
+                                  },
+                                  icon: Icon(
+                                    data.isLiked
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    color: data.isLiked ? Colors.red : Colors.grey,
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           );
                         },
                         itemCount: gifs.length,
