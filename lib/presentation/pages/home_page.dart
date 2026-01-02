@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gif_imeges_app/data/memory_gif_repository.dart';
 import 'package:gif_imeges_app/design_system/app_colors.dart';
+import 'package:gif_imeges_app/domain/favorites_repository.dart';
 import 'package:gif_imeges_app/domain/gif_app_repository.dart';
-import 'package:gif_imeges_app/presentation/bloc/fav_page/fav_page.dart';
-import 'package:gif_imeges_app/presentation/bloc/gif_list_cubit.dart';
-import 'package:gif_imeges_app/presentation/bloc/gif_list_state.dart';
+import 'package:gif_imeges_app/presentation/bloc/home_page_bloc/home_page_cubit.dart';
+import 'package:gif_imeges_app/presentation/bloc/home_page_bloc/home_page_state.dart';
+import 'package:gif_imeges_app/presentation/routes/app_route_names.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,51 +17,49 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
   static Widget withCubit() => BlocProvider(
-    create: (context) => GifListCubit(context.read<GifAppRepository>()),
+    create: (context) => HomePageCubit(
+      context.read<GifAppRepository>(),
+      context.read<FavoritesRepository>(),
+    ),
     child: const HomePage(),
   );
 }
 
 class _HomePageState extends State<HomePage> {
-  String? _queryFromLiveSearch;
   Timer? _searchTimer;
-  late final GifListCubit _cubit;
+  late final HomePageCubit _cubit;
   double _lastRequestedExtent = 0;
   static const _debounceDuration = Duration(milliseconds: 300);
 
   @override
   void initState() {
     super.initState();
-    _cubit = BlocProvider.of<GifListCubit>(context);
-    _cubit.fetchCollection(_queryFromLiveSearch);
+    _cubit = BlocProvider.of<HomePageCubit>(context);
+    _cubit.search('cat');
   }
 
   void _onSearchChanged(String value) {
     _searchTimer?.cancel();
-    _cubit.setOffset(offset: 0);
     _lastRequestedExtent = 0;
     _searchTimer = Timer(_debounceDuration, () {
-      _queryFromLiveSearch = value;
-      _cubit.fetchCollection(value);
+      _cubit.search(value);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(height: 50),
           GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => FavPage.withCubit(),
-              ),
-            ),
-            
-            child: Icon( Icons.gif, size: 100, color: Colors.white)),
+            onTap: () async {
+              await context.pushNamed(AppRouteNames.favorites);
+              _cubit.refreshLikesOnly();
+            },
+            child: Icon(Icons.gif, size: 100, color: Colors.white),
+          ),
           SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -86,7 +85,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Expanded(
-            child: BlocBuilder<GifListCubit, GifListState>(
+            child: BlocBuilder<HomePageCubit, HomePageState>(
               builder: (context, state) {
                 return switch (state) {
                   Error(:final message) => Center(
@@ -111,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                             metrics.maxScrollExtent > _lastRequestedExtent;
                         if (shouldRequestMore) {
                           _lastRequestedExtent = metrics.maxScrollExtent;
-                          _cubit.fetchCollection(_queryFromLiveSearch);
+                          _cubit.loadMore();
                         }
                         return false;
                       },
@@ -148,17 +147,14 @@ class _HomePageState extends State<HomePage> {
                                 right: 2,
                                 top: 2,
                                 child: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      data.isLiked = !data.isLiked;
-                                      MemoryGifRepository.favList.add(data);
-                                    });
-                                  },
+                                  onPressed: () => _cubit.toggleLike(data),
                                   icon: Icon(
                                     data.isLiked
                                         ? Icons.favorite
                                         : Icons.favorite_border,
-                                    color: data.isLiked ? Colors.red : Colors.grey,
+                                    color: data.isLiked
+                                        ? Colors.red
+                                        : Colors.grey,
                                   ),
                                 ),
                               ),

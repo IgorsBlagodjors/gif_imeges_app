@@ -8,11 +8,8 @@ class NetworkGifRepository implements GifAppRepository {
   NetworkGifRepository(this._gifApiClient);
 
   @override
-  Future<List<GifClass>> fetchGifs(String? query, int offset) async {
-    bool isQueryEmpty = query == null;
-    final response = isQueryEmpty
-        ? await _gifApiClient.fetchGifs(offset: offset)
-        : await _gifApiClient.fetchGifs(query: query, offset: offset);
+  Future<List<GifClass>> fetchGifs(String query, int offset) async {
+    final response = await _gifApiClient.fetchGifs(query: query, offset: offset);
     return response;
   }
 }

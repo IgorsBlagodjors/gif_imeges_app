@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gif_imeges_app/design_system/app_colors.dart';
 import 'package:gif_imeges_app/domain/favorites_repository.dart';
-import 'package:gif_imeges_app/presentation/bloc/fav_page/fav_page_cubit.dart';
-import 'package:gif_imeges_app/presentation/bloc/fav_page/fav_page_state.dart';
+import 'package:gif_imeges_app/presentation/bloc/fav_page_bloc/fav_page_cubit.dart';
+import 'package:gif_imeges_app/presentation/bloc/fav_page_bloc/fav_page_state.dart';
+import 'package:go_router/go_router.dart';
 
 class FavPage extends StatefulWidget {
   const FavPage({super.key});
@@ -20,11 +21,11 @@ class FavPage extends StatefulWidget {
 class _FavPageState extends State<FavPage> {
   late final FavPageCubit _cubit;
 
-@override
+  @override
   initState() {
     super.initState();
     _cubit = BlocProvider.of<FavPageCubit>(context);
-    _cubit.fetchFavGifs();
+    _cubit.watch();
   }
 
   @override
@@ -32,12 +33,13 @@ class _FavPageState extends State<FavPage> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 50),
           GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Icon(Icons.arrow_back, size: 32, color: Colors.white)),
+            onTap: () => context.pop(),
+            child: Icon(Icons.arrow_back, size: 32, color: Colors.white),
+          ),
           Expanded(
             child: BlocBuilder<FavPageCubit, FavPageState>(
               builder: (context, state) {
@@ -83,11 +85,7 @@ class _FavPageState extends State<FavPage> {
                             right: 2,
                             top: 2,
                             child: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  data.isLiked = !data.isLiked;
-                                });
-                              },
+                              onPressed: () => _cubit.toggleLike(data),
                               icon: Icon(
                                 data.isLiked
                                     ? Icons.favorite

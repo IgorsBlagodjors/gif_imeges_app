@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'gif_list_state.dart';
+part of 'home_page_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,7 +12,7 @@ part of 'gif_list_state.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$GifListState {
+mixin _$HomePageState {
 
 
 
@@ -20,7 +20,7 @@ mixin _$GifListState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GifListState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomePageState);
 }
 
 
@@ -29,20 +29,20 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'GifListState()';
+  return 'HomePageState()';
 }
 
 
 }
 
 /// @nodoc
-class $GifListStateCopyWith<$Res>  {
-$GifListStateCopyWith(GifListState _, $Res Function(GifListState) __);
+class $HomePageStateCopyWith<$Res>  {
+$HomePageStateCopyWith(HomePageState _, $Res Function(HomePageState) __);
 }
 
 
-/// Adds pattern-matching-related methods to [GifListState].
-extension GifListStatePatterns on GifListState {
+/// Adds pattern-matching-related methods to [HomePageState].
+extension HomePageStatePatterns on HomePageState {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -198,7 +198,7 @@ return error(_that.message);case _:
 /// @nodoc
 
 
-class Initial implements GifListState {
+class Initial implements HomePageState {
   const Initial();
   
 
@@ -218,7 +218,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'GifListState.initial()';
+  return 'HomePageState.initial()';
 }
 
 
@@ -230,7 +230,7 @@ String toString() {
 /// @nodoc
 
 
-class Loading implements GifListState {
+class Loading implements HomePageState {
   const Loading();
   
 
@@ -250,7 +250,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'GifListState.loading()';
+  return 'HomePageState.loading()';
 }
 
 
@@ -262,7 +262,7 @@ String toString() {
 /// @nodoc
 
 
-class EmptyState implements GifListState {
+class EmptyState implements HomePageState {
   const EmptyState();
   
 
@@ -282,7 +282,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'GifListState.empty()';
+  return 'HomePageState.empty()';
 }
 
 
@@ -294,7 +294,7 @@ String toString() {
 /// @nodoc
 
 
-class Loaded implements GifListState {
+class Loaded implements HomePageState {
   const Loaded(final  List<GifClass> gifs): _gifs = gifs;
   
 
@@ -306,7 +306,7 @@ class Loaded implements GifListState {
 }
 
 
-/// Create a copy of GifListState
+/// Create a copy of HomePageState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -325,14 +325,14 @@ int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(
 
 @override
 String toString() {
-  return 'GifListState.loaded(gifs: $gifs)';
+  return 'HomePageState.loaded(gifs: $gifs)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $LoadedCopyWith<$Res> implements $GifListStateCopyWith<$Res> {
+abstract mixin class $LoadedCopyWith<$Res> implements $HomePageStateCopyWith<$Res> {
   factory $LoadedCopyWith(Loaded value, $Res Function(Loaded) _then) = _$LoadedCopyWithImpl;
 @useResult
 $Res call({
@@ -351,7 +351,7 @@ class _$LoadedCopyWithImpl<$Res>
   final Loaded _self;
   final $Res Function(Loaded) _then;
 
-/// Create a copy of GifListState
+/// Create a copy of HomePageState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? gifs = null,}) {
   return _then(Loaded(
@@ -366,13 +366,13 @@ as List<GifClass>,
 /// @nodoc
 
 
-class Error implements GifListState {
+class Error implements HomePageState {
   const Error(this.message);
   
 
  final  String message;
 
-/// Create a copy of GifListState
+/// Create a copy of HomePageState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -391,14 +391,14 @@ int get hashCode => Object.hash(runtimeType,message);
 
 @override
 String toString() {
-  return 'GifListState.error(message: $message)';
+  return 'HomePageState.error(message: $message)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $ErrorCopyWith<$Res> implements $GifListStateCopyWith<$Res> {
+abstract mixin class $ErrorCopyWith<$Res> implements $HomePageStateCopyWith<$Res> {
   factory $ErrorCopyWith(Error value, $Res Function(Error) _then) = _$ErrorCopyWithImpl;
 @useResult
 $Res call({
@@ -417,12 +417,269 @@ class _$ErrorCopyWithImpl<$Res>
   final Error _self;
   final $Res Function(Error) _then;
 
-/// Create a copy of GifListState
+/// Create a copy of HomePageState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(Error(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$GifQuery {
+
+ String get term; int get offset; int get limit;
+/// Create a copy of GifQuery
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GifQueryCopyWith<GifQuery> get copyWith => _$GifQueryCopyWithImpl<GifQuery>(this as GifQuery, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GifQuery&&(identical(other.term, term) || other.term == term)&&(identical(other.offset, offset) || other.offset == offset)&&(identical(other.limit, limit) || other.limit == limit));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,term,offset,limit);
+
+@override
+String toString() {
+  return 'GifQuery(term: $term, offset: $offset, limit: $limit)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $GifQueryCopyWith<$Res>  {
+  factory $GifQueryCopyWith(GifQuery value, $Res Function(GifQuery) _then) = _$GifQueryCopyWithImpl;
+@useResult
+$Res call({
+ String term, int offset, int limit
+});
+
+
+
+
+}
+/// @nodoc
+class _$GifQueryCopyWithImpl<$Res>
+    implements $GifQueryCopyWith<$Res> {
+  _$GifQueryCopyWithImpl(this._self, this._then);
+
+  final GifQuery _self;
+  final $Res Function(GifQuery) _then;
+
+/// Create a copy of GifQuery
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? term = null,Object? offset = null,Object? limit = null,}) {
+  return _then(_self.copyWith(
+term: null == term ? _self.term : term // ignore: cast_nullable_to_non_nullable
+as String,offset: null == offset ? _self.offset : offset // ignore: cast_nullable_to_non_nullable
+as int,limit: null == limit ? _self.limit : limit // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [GifQuery].
+extension GifQueryPatterns on GifQuery {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _GifQuery value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _GifQuery() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _GifQuery value)  $default,){
+final _that = this;
+switch (_that) {
+case _GifQuery():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _GifQuery value)?  $default,){
+final _that = this;
+switch (_that) {
+case _GifQuery() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String term,  int offset,  int limit)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _GifQuery() when $default != null:
+return $default(_that.term,_that.offset,_that.limit);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String term,  int offset,  int limit)  $default,) {final _that = this;
+switch (_that) {
+case _GifQuery():
+return $default(_that.term,_that.offset,_that.limit);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String term,  int offset,  int limit)?  $default,) {final _that = this;
+switch (_that) {
+case _GifQuery() when $default != null:
+return $default(_that.term,_that.offset,_that.limit);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _GifQuery implements GifQuery {
+  const _GifQuery({required this.term, this.offset = 0, this.limit = 30});
+  
+
+@override final  String term;
+@override@JsonKey() final  int offset;
+@override@JsonKey() final  int limit;
+
+/// Create a copy of GifQuery
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GifQueryCopyWith<_GifQuery> get copyWith => __$GifQueryCopyWithImpl<_GifQuery>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GifQuery&&(identical(other.term, term) || other.term == term)&&(identical(other.offset, offset) || other.offset == offset)&&(identical(other.limit, limit) || other.limit == limit));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,term,offset,limit);
+
+@override
+String toString() {
+  return 'GifQuery(term: $term, offset: $offset, limit: $limit)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$GifQueryCopyWith<$Res> implements $GifQueryCopyWith<$Res> {
+  factory _$GifQueryCopyWith(_GifQuery value, $Res Function(_GifQuery) _then) = __$GifQueryCopyWithImpl;
+@override @useResult
+$Res call({
+ String term, int offset, int limit
+});
+
+
+
+
+}
+/// @nodoc
+class __$GifQueryCopyWithImpl<$Res>
+    implements _$GifQueryCopyWith<$Res> {
+  __$GifQueryCopyWithImpl(this._self, this._then);
+
+  final _GifQuery _self;
+  final $Res Function(_GifQuery) _then;
+
+/// Create a copy of GifQuery
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? term = null,Object? offset = null,Object? limit = null,}) {
+  return _then(_GifQuery(
+term: null == term ? _self.term : term // ignore: cast_nullable_to_non_nullable
+as String,offset: null == offset ? _self.offset : offset // ignore: cast_nullable_to_non_nullable
+as int,limit: null == limit ? _self.limit : limit // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

@@ -8,14 +8,14 @@ class GifApiClient {
   GifApiClient(this._dio);
 
   Future<List<GifClass>> fetchGifs({
-    String query = 'Shaman King',
+    String query = '',
     int limit = 30,
     int offset = 0,
   }) async {
     final queryParameters = {
       'api_key': ApiKey.gifApiKey,
       'q': query,
-      'limit': limit,
+      'limit': limit.toString(),
       'offset': offset,
     };
     final response = await _dio.get(
